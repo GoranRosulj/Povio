@@ -10,7 +10,7 @@ test.describe('Sign In Page - Login flow', () => {
     
     test('Successful Login with Valid Credentials', async ( { homePage, commonUIComponent, signInPage } ) => {
         await test.step('Navigate to Sing in page', async () => {
-            await commonUIComponent.clickOnLink('Sing In')
+            await commonUIComponent.clickOnLink('Sign In');
             await expect(signInPage.singInHeader).toBeVisible();
         });
         await test.step('Fill input fields', async () => {

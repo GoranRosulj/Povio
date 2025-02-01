@@ -29,12 +29,12 @@ class CommonUIComponent {
         return this.homePageLinks.getByText(linkName);
     }
     
-    async getFlashNoticeText() {
-        await this.flashNotice.textContent();
+    async getFlashNoticeText(): Promise<string | null> {
+        return await this.flashNotice.textContent();
     }
-    
-    async getFlashAlertText() {
-        await this.flashNotice.textContent();
+
+    async getFlashAlertText(): Promise<string | null> {
+        return await this.flashAlert.textContent();
     }
     
     async clickonFlashXButton() {

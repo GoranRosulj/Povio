@@ -1,10 +1,12 @@
 import { test as baseTest } from '@playwright/test';
 import HomePage from '../pages/homePage';
+import SignUpPage from '../pages/singUpPage';
 import SignInPage from '../pages/signInPage';
 import CommonUIComponent from '../components/commonUIComponents';
 
 type pages = {
     homePage: HomePage;
+    signUpPage: SignUpPage;
     signInPage: SignInPage;
     commonUIComponent: CommonUIComponent;
     
@@ -14,6 +16,10 @@ const testPages = baseTest.extend<pages>({
 
     homePage: async ({ page }, use) => {
         await use(new HomePage(page));
+    },
+
+    signUpPage: async ({ page }, use) => {
+        await use(new SignUpPage(page));
     },
 
     signInPage: async ({ page }, use) => {
