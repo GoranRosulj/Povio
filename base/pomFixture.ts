@@ -1,6 +1,4 @@
-
-
-import {test as baseTest} from '@playwright/test';
+import { test as baseTest } from '@playwright/test';
 import HomePage from '../pages/homePage';
 import CommonUIComponent from '../components/commonUIComponents';
 
