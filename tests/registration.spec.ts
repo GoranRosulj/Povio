@@ -13,18 +13,33 @@ test.describe('User Registration', () => {
             await commonUIComponent.clickOnLink('Sign up');
             // Verify that the Sign Up header is visible
             const signUpText = await signUpPage.getSignUpText();
-            await expect(signUpText, 'Expected the Sign Up text to be visible on the registration page').toBe('Welcome');
+            await expect(signUpText, 'Expected the Sign Up text to be visible on the registration page').toBe('Sign up');
 
         });
 
         await test.step('Generate random registration data', async () => {
             randomName = faker.person.firstName();
-            console.log(randomName);
             randomEmail = faker.internet.email();
-            console.log(randomEmail);
             randomPassword = faker.internet.password({ length: 10 });
-            console.log(randomPassword);
         });
+    });
+
+    test.afterEach(async ({ page, commonUIComponent, editAccountPage }, testInfo) => {
+        // For tear down, cancel the account via the UI.
+        // Navigate to the Edit Account page:
+        await commonUIComponent.clickOnLink('Edit account');
+        // Set up a dialog handler to accept the confirmation alert.
+        page.once('dialog', async dialog => {
+        await dialog.accept();
+        });
+        // Click the "Cancel my account" button.
+        await editAccountPage.clickOnCancelAccount();
+        // Verify successful account deletion
+        const successMessage = await commonUIComponent.getFlashNoticeText()
+        await expect(successMessage, 'Expected user account to be canceled').toBe(
+            'Bye! Your account has been successfully cancelled. We hope to see you again soon.'
+        );
+        
     });
 
     test('Successful Registration with Valid Credentials', async ({ signUpPage, commonUIComponent }) => {

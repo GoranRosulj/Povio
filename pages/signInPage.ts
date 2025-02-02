@@ -2,7 +2,7 @@ import { Page, Locator} from '@playwright/test';
 
 //Contains locators and helper methods for the Home page and pop up menus within the application.
 
-class SignUpPage {
+class SignInPage {
     
     singInHeader: Locator;
     userEmail: Locator;
@@ -12,7 +12,7 @@ class SignUpPage {
     
     constructor(private page: Page) {
         this.page = page;
-        this.singInHeader = page.locator('main h3')
+        this.singInHeader = page.locator('h3:has-text("Sign in")')
         this.userEmail = page.locator('#user_email');
         this.userPassword = page.locator('#user_password');
         this.signInButon = page.locator('.button');
@@ -36,4 +36,4 @@ class SignUpPage {
     }
 }   
 
-export default SignUpPage;
+export default SignInPage;

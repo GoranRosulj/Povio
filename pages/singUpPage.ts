@@ -14,7 +14,7 @@ class SignUpPage {
     
     constructor(private page: Page) {
         this.page = page;
-        this.singUpHeader = page.locator('main h3')
+        this.singUpHeader = page.locator('h3:has-text("Sign up")')
         this.userName = page.locator('#user_name');
         this.userEmail = page.locator('#user_email');
         this.userPassword = page.locator('#user_password');

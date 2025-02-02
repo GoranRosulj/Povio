@@ -1,5 +1,4 @@
 import { Page, Locator} from '@playwright/test';
-import { expect } from '../base/pomFixture';
 
 //Contains locators and helper methods for the Home page and pop up menus within the application.
 
@@ -9,7 +8,7 @@ class HomePage {
     
     constructor(private page: Page) {
         this.page = page;
-        this.welcome = page.locator('main h3')
+        this.welcome = page.locator('h3:has-text("Welcome")')
     }
 
     async navigate() {
