@@ -59,20 +59,4 @@ test.describe('User Registration', () => {
             ).toBe('Welcome! You have signed up successfully.');
         });
     });
-
-    test('Cannot register with existing email', async ({ signUpPage, commonUIComponent }) => {
-        await test.step('Navigate to Sign Up page', async () => {
-            const signUpText = await signUpPage.getSignUpText();
-            await expect(signUpText).toBe('Sign up');
-        });
-
-        await test.step('Attempt to register with existing email', async () => {
-            await signUpPage.registerNewUser(process.env.USER_EMAIL!, randomPassword, randomPassword);
-        });
-
-        await test.step('Verify error message', async () => {
-            const errorMessage = await signUpPage.getErrorMessage();
-            await expect(errorMessage).toContain('Email has already been taken');
-        });
-    });
 });

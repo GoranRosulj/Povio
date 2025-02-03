@@ -20,7 +20,7 @@ class SignUpPage {
         this.userPassword = page.locator('#user_password');
         this.userPasswordConfirm = page.locator('#user_password_confirmation');
         this.signUpButon = page.locator('.button');
-        this.errorExplanation = page.locator('#error_explanation');
+        this.errorExplanation = page.locator('#error_explanation > ul > li');
     }
 
     // A method to get the sign up text

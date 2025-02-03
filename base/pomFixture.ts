@@ -5,6 +5,7 @@ import SignInPage from '../pages/signInPage';
 import EditAccountPage from '../pages/editAccountPage';
 import CampaignsPage from '../pages/campaignsPage';
 import CommonUIComponent from '../components/commonUIComponents';
+import ApiWebComponents from '../components/apiWebComponents';
 
 type pages = {
     homePage: HomePage;
@@ -13,7 +14,7 @@ type pages = {
     editAccountPage: EditAccountPage;
     campaignsPage: CampaignsPage;
     commonUIComponent: CommonUIComponent;
-    
+    apiWebComponent: ApiWebComponents;
 }
 
 const testPages = baseTest.extend<pages>({
@@ -40,6 +41,11 @@ const testPages = baseTest.extend<pages>({
 
     commonUIComponent: async ({ page }, use) => {
         await use(new CommonUIComponent(page));
+
+    },
+
+    apiWebComponent: async ({}, use) => {
+        await use(new ApiWebComponents());
     }
 });
 
