@@ -25,14 +25,14 @@ test.describe('User Registration', () => {
     });
 
     test.afterEach(async ({ page, commonUIComponent, editAccountPage }, testInfo) => {
-        // For tear down, cancel the account via the UI.
-        // Navigate to the Edit Account page:
+        // For tear down, cancel the account via the UI
+        // Navigate to the Edit Account page
         await commonUIComponent.clickOnLink('Edit account');
-        // Set up a dialog handler to accept the confirmation alert.
+        // Set up a dialog handler to accept the confirmation alert
         page.once('dialog', async dialog => {
         await dialog.accept();
         });
-        // Click the "Cancel my account" button.
+        // Click the "Cancel my account" button
         await editAccountPage.clickOnCancelAccount();
         // Verify successful account deletion
         const successMessage = await commonUIComponent.getFlashNoticeText()
@@ -52,9 +52,9 @@ test.describe('User Registration', () => {
 
         await test.step('Submit the registration form and verify success notification', async () => {
             await signUpPage.clickOnSignUp();
-            const flashText = await commonUIComponent.getFlashNoticeText();
+            const successMessage = await commonUIComponent.getFlashNoticeText();
             expect(
-                flashText,
+                successMessage,
                 'Expected flash message to confirm account creation'
             ).toBe('Welcome! You have signed up successfully.');
         });

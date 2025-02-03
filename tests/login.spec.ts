@@ -3,7 +3,7 @@ import { test, expect } from '../base/pomFixture';
 test.describe('Sign In Page - Login flow', () => {
 
     test.beforeEach(async ({ homePage }) => {
-        // Navigate to the homepage before each test.
+        // Navigate to the homepage before each test
         await homePage.navigate();
         await expect(homePage.welcome, 'Expected the welcome text to be visible on the homepage').toBeVisible();
     });

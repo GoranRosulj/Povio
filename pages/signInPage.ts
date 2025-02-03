@@ -9,7 +9,7 @@ class SignInPage {
     userPassword: Locator;
     signInButon: Locator;
     rememberMe: Locator;
-    
+    errorExplanation: Locator;
     constructor(private page: Page) {
         this.page = page;
         this.singInHeader = page.locator('h3:has-text("Sign in")')
@@ -17,22 +17,32 @@ class SignInPage {
         this.userPassword = page.locator('#user_password');
         this.signInButon = page.locator('.button');
         this.rememberMe = page.locator('#user_remember_me');
+        this.errorExplanation = page.locator('#error_explanation');
     }
 
+    // A method to fill the user email field
     async fillUserEmailField(user_email: string) {
         await this.userEmail.fill(user_email);
     }
 
+    // A method to fill the user password field
     async fillUserPassField(user_pass: string) {
         await this.userPassword.fill(user_pass);
     }
 
+    // A method to toggle the remember me checkbox
     async toggleRememberMe() {
         await this.rememberMe.click();
     }
 
+    // A method to click on the sign in button
     async clickSignInButton() {
         await this.signInButon.click();
+    }
+
+    // A method to get the error message
+    async getErrorMessage(): Promise<string | null> {
+        return await this.errorExplanation.textContent();
     }
 }   
 

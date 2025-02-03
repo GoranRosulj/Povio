@@ -31,10 +31,12 @@ export default [
             'no-trailing-spaces': 'error',
             'eol-last': ['error', 'always'],
             'curly': ['error', 'all'],
+            'prettier/prettier': 'error',
+            '@typescript-eslint/semi': ['error', 'always'],
         },
     },
     {
-        files: [''],
+        files: ['**/*.{spec,test}.{ts,tsx}'],
         rules: {
             // Disable no-wait-for-timeout
             'playwright/no-wait-for-timeout': 'off',

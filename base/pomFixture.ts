@@ -3,6 +3,7 @@ import HomePage from '../pages/homePage';
 import SignUpPage from '../pages/singUpPage';
 import SignInPage from '../pages/signInPage';
 import EditAccountPage from '../pages/editAccountPage';
+import CampaignsPage from '../pages/campaignsPage';
 import CommonUIComponent from '../components/commonUIComponents';
 
 type pages = {
@@ -10,6 +11,7 @@ type pages = {
     signUpPage: SignUpPage;
     signInPage: SignInPage;
     editAccountPage: EditAccountPage;
+    campaignsPage: CampaignsPage;
     commonUIComponent: CommonUIComponent;
     
 }
@@ -30,6 +32,10 @@ const testPages = baseTest.extend<pages>({
 
     editAccountPage: async ({ page }, use) => {
         await use(new EditAccountPage(page));
+    },
+
+    campaignsPage: async ({ page }, use) => {
+        await use(new CampaignsPage(page));
     },
 
     commonUIComponent: async ({ page }, use) => {

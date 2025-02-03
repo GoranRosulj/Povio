@@ -1,8 +1,9 @@
 import { Page, Locator } from '@playwright/test';
 
+//Contains locators and helper methods for the Home page and pop up menus within the application.
+
 class EditAccountPage {
     
-    // Locators for elements on the Edit Account page.
     editPageHeader: Locator;
     userName: Locator;
     userEmail: Locator;
@@ -14,6 +15,7 @@ class EditAccountPage {
     cancelAccountButton: Locator;
     
     constructor(private page: Page) {
+        this.page = page;
         // Locator for the header (assuming "Edit User" is displayed).
         this.editPageHeader = page.locator('h3:has-text("Edit User")');
         // User information fields.

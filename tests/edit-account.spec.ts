@@ -17,15 +17,16 @@ test.describe('Edit Account Page Tests', () => {
         const signUpText = await signUpPage.getSignUpText();
         await expect(signUpText, 'Expected the Sign Up text to be visible on the registration page').toBe('Sign up');
         // Register a new user
-        await signUpPage.fillUserNameField(randomName);
-        await signUpPage.fillUserEmailField(randomEmail);
-        await signUpPage.fillUserPassField(randomPassword);
-        await signUpPage.fillUserPassConfirmField(randomPassword);
-        await signUpPage.clickOnSignUp();
+        await signUpPage.registerNewUser(randomName, randomEmail, randomPassword);
+        const successMessage = await commonUIComponent.getFlashNoticeText();
+            expect(
+                successMessage,
+                'Expected flash message to confirm account creation'
+            ).toBe('Welcome! You have signed up successfully.');
 
-        // Navigate to Edit Account page (assume there is a link labeled "Edit account")
+        // Navigate to Edit Account page
         await commonUIComponent.clickOnLink('Edit account');
-        // Verify the Edit Account page is loaded.
+        // Verify the Edit Account page is loaded
         const headerText = await editAccountPage.getEditPageHeaderText();
         await expect(headerText, 'Expected Edit Account header to be visible').toContain('Edit User');
     });
@@ -36,14 +37,14 @@ test.describe('Edit Account Page Tests', () => {
             console.log('Skipping afterEach for:', testInfo.title);
             return;
         }
-        // For tear down, cancel the account via the UI.
+        // For tear down, cancel the account via the UI
         // Navigate to the Edit Account page:
         await commonUIComponent.clickOnLink('Edit account');
-        // Set up a dialog handler to accept the confirmation alert.
+        // Set up a dialog handler to accept the confirmation alert
         page.once('dialog', async dialog => {
         await dialog.accept();
         });
-        // Click the "Cancel my account" button.
+        // Click the "Cancel my account" button
         await editAccountPage.clickOnCancelAccount();
         // Verify successful account deletion
         const successMessage = await commonUIComponent.getFlashNoticeText()
@@ -58,10 +59,10 @@ test.describe('Edit Account Page Tests', () => {
         const newName = faker.person.firstName();
         const newEmail = faker.internet.email();
 
-        // Change profile information:
+        // Change profile information
         await editAccountPage.updateNameAndEmail(newName, newEmail, randomPassword);
 
-        // Verify update succeeded.
+        // Verify update succeeded
         const successMessage = await commonUIComponent.getFlashNoticeText();
         await expect(successMessage, 'Expected user account to be updated').toBe(
             'Your account has been updated successfully.'
@@ -72,25 +73,25 @@ test.describe('Edit Account Page Tests', () => {
         // Generate new password
         const newPassword = faker.internet.password({ length: 10 });
 
-        // Change password:
+        // Change password
         await editAccountPage.updatePassword(newPassword, randomPassword);
 
-        // Verify update succeeded.
+        // Verify update succeeded
         const successMessage = await commonUIComponent.getFlashNoticeText();
         await expect(successMessage, 'Expected user account to be updated').toBe(
             'Your account has been updated successfully.'
         );
 
-        // Update our randomPassword variable for subsequent steps or tear down.
+        // Update our randomPassword variable for subsequent steps or tear down
         randomPassword = newPassword;
     });
 
     test('Cancel Account', async ({ page, editAccountPage, commonUIComponent, signInPage }) => {
-        // Set up a dialog handler to accept the confirmation alert.
+        // Set up a dialog handler to accept the confirmation alert
         page.once('dialog', async dialog => {
         await dialog.accept();
         });
-        // Click the "Cancel my account" button.
+        // Click the "Cancel my account" button
         await editAccountPage.clickOnCancelAccount();
         // Verify successful account deletion
         const successMessage = await commonUIComponent.getFlashNoticeText()
@@ -98,13 +99,13 @@ test.describe('Edit Account Page Tests', () => {
             'Bye! Your account has been successfully cancelled. We hope to see you again soon.'
         );
 
-        // Verify account cancellation by attempting to log in.
+        // Verify account cancellation by attempting to log in
         await commonUIComponent.clickOnLink('Sign in');
         await signInPage.fillUserEmailField(randomEmail);
         await signInPage.fillUserPassField(randomPassword);
         await signInPage.clickSignInButton();
         
-        // Expect that login fails (e.g., flash error message is shown).
+        // Expect that login fails
         const errorMessage = await commonUIComponent.getFlashAlertText();
         expect(errorMessage, 'Expected login to fail after account cancellation').toBe('Invalid Email or password.');
     });

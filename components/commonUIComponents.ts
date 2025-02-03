@@ -21,22 +21,27 @@ class CommonUIComponent {
         this.flashXButton = page.locator('.close');
     }
 
+    // A method to click on a link
     async clickOnLink(linkName: string) {
         await this.homePageLinks.getByText(linkName).click();
     }
 
-    getLink(linkName: string): Locator {
+    // A method to get a link
+    async getLink(linkName: string): Promise<Locator> {
         return this.homePageLinks.getByText(linkName);
     }
     
+    // A method to get the flash notice text
     async getFlashNoticeText(): Promise<string | null> {
         return await this.flashNotice.textContent();
     }
 
+    // A method to get the flash alert text
     async getFlashAlertText(): Promise<string | null> {
         return await this.flashAlert.textContent();
     }
     
+    // A method to click on the flash x button
     async clickonFlashXButton() {
         await this.flashXButton.click();
     }

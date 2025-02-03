@@ -12,19 +12,19 @@ test.describe('Application Health Check', () => {
         await expect(homePage.welcome, 'Expected the welcome message to be visible').toBeVisible();
     });
 
-    test('Navigation bar links are present', async ({ homePage, commonUIComponent }) => {
+    test('Navigation bar links are present', async ({ commonUIComponent }) => {
         await test.step('Home link is present', async () => {
-            const homeLink = commonUIComponent.getLink('Home');
+            const homeLink = await commonUIComponent.getLink('Home');
             await expect(homeLink, 'Expected Home link to be visible on the homepage').toBeVisible();
         });
 
         await test.step('Sign in link is present', async () => {
-            const signInLink = commonUIComponent.getLink('Sign in');
+            const signInLink = await commonUIComponent.getLink('Sign in');
             await expect(signInLink, 'Expected Sign in link to be visible on the homepage').toBeVisible();
         });
         
         await test.step('Sing link is present', async () => {
-            const signUpLink = commonUIComponent.getLink('Sign up');
+            const signUpLink = await commonUIComponent.getLink('Sign up');
             await expect(signUpLink, 'Expected Sign up link to be visible on the homepage').toBeVisible();
         });
     });

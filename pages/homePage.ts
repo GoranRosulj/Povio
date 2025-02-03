@@ -15,6 +15,7 @@ class HomePage {
         await this.page.goto(process.env.BASE_URL!);
     }
 
+    // A method to get the welcome text
     async getWelcomeText() {
         await this.welcome.textContent();
     }
