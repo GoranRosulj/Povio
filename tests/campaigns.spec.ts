@@ -70,48 +70,61 @@ test.describe('Campaign Tests', () => {
     });
 
     test('Create a new campaign', async ({ campaignsPage }) => {
-        await campaignsPage.navigateToNewCampaign();
-        await campaignsPage.createCampaign(randomCampaignName, randomCampaignDescription, 'one_time');
+        await test.step('Navigate to new campaign page', async () => {
+            await campaignsPage.navigateToNewCampaign();
+        });
 
-        // Verify campaign appears in the list
-        const campaignExists = await campaignsPage.campaignExists(randomCampaignName);
-        expect(campaignExists).toBeTruthy();
+        await test.step('Create campaign with test data', async () => {
+            await campaignsPage.createCampaign(randomCampaignName, randomCampaignDescription, 'one_time');
+        });
+
+        await test.step('Verify campaign was created successfully', async () => {
+            const campaignExists = await campaignsPage.campaignExists(randomCampaignName);
+            await expect(campaignExists).toBeTruthy();
+        });
     });
 
     test('Edit an existing campaign', async ({ campaignsPage, commonUIComponent }) => {
-        // Create initial campaign
-        await campaignsPage.navigateToNewCampaign();
-        await campaignsPage.createCampaign(randomCampaignName, randomCampaignDescription, 'one_time');
+        await test.step('Create initial campaign', async () => {
+            await campaignsPage.navigateToNewCampaign();
+            await campaignsPage.createCampaign(randomCampaignName, randomCampaignDescription, 'one_time');
+        });
 
-        // Generate new campaign details
-        const updatedCampaignName = faker.commerce.productName();
-        const updatedCampaignDescription = faker.lorem.sentence();
+        await test.step('Update campaign with new details', async () => {
+            const updatedCampaignName = faker.commerce.productName();
+            const updatedCampaignDescription = faker.lorem.sentence();
+            
+            await campaignsPage.editCampaign(randomCampaignName, updatedCampaignName, updatedCampaignDescription);
+            currentCampaignName = updatedCampaignName;
+        });
 
-        // Edit the campaign
-        await campaignsPage.editCampaign(randomCampaignName, updatedCampaignName, updatedCampaignDescription);
-        currentCampaignName = updatedCampaignName;
-        await expect(commonUIComponent.flashNotice).toContainText('Campaign was successfully updated');
-
-        // Verify the campaign was updated
-        const campaignExists = await campaignsPage.campaignExists(updatedCampaignName);
-        await expect(campaignExists, 'Expected updated campaign to be visible in the list').toBeTruthy();
+        await test.step('Verify campaign was updated successfully', async () => {
+            await expect(commonUIComponent.flashNotice).toContainText('Campaign was successfully updated');
+            
+            const campaignExists = await campaignsPage.campaignExists(currentCampaignName);
+            await expect(campaignExists, 'Expected updated campaign to be visible in the list').toBeTruthy();
+        });
     });
 
     test('Delete a campaign', async ({ page, campaignsPage, commonUIComponent }) => {
-        // Create initial campaign
-        await campaignsPage.navigateToNewCampaign();
-        await campaignsPage.createCampaign(randomCampaignName, randomCampaignDescription, 'one_time');
-        
-        // Set up dialog handler for delete confirmation
-        page.once('dialog', async dialog => {
-            await dialog.accept();
+        await test.step('Create initial campaign', async () => {
+            await campaignsPage.navigateToNewCampaign();
+            await campaignsPage.createCampaign(randomCampaignName, randomCampaignDescription, 'one_time');
         });
-        // Delete the campaign
-        await campaignsPage.deleteCampaign(randomCampaignName);
-        await expect(commonUIComponent.flashNotice).toContainText('Campaign was successfully destroyed');
 
-        // Verify campaign no longer exists in the list
-        const campaignExists = await campaignsPage.campaignExists(randomCampaignName);
-        await expect(campaignExists, 'Expected campaign to be removed from the list').toBeFalsy();
+        await test.step('Delete the campaign', async () => {
+            // Set up dialog handler for delete confirmation
+            page.once('dialog', async dialog => {
+                await dialog.accept();
+            });
+            await campaignsPage.deleteCampaign(randomCampaignName);
+        });
+
+        await test.step('Verify campaign was deleted successfully', async () => {
+            await expect(commonUIComponent.flashNotice).toContainText('Campaign was successfully destroyed');
+            
+            const campaignExists = await campaignsPage.campaignExists(randomCampaignName);
+            await expect(campaignExists, 'Expected campaign to be removed from the list').toBeFalsy();
+        });
     });
 });

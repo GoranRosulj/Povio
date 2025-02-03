@@ -44,6 +44,13 @@ class SignInPage {
     async getErrorMessage(): Promise<string | null> {
         return await this.errorExplanation.textContent();
     }
+
+    // A method to login with the given email and password
+    async loginUser(email: string, password: string) {
+        await this.fillUserEmailField(email);
+        await this.fillUserPassField(password);
+        await this.clickSignInButton();
+    }
 }   
 
 export default SignInPage;

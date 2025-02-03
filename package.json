@@ -33,6 +33,7 @@
   "dependencies": {
     "@alex_neo/playwright-azure-reporter": "^1.9.1",
     "@axe-core/playwright": "^4.10.0",
+    "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "mime-types": "^2.1.35"
   }
