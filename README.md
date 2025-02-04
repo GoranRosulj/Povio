@@ -25,6 +25,7 @@ Composition and backend services are not tested in this project directly (API te
    ```
    npm install
    ```
+6. Create .env file with valid data. Use .env-example for refference
 
 ## Test execution
 
